@@ -1,14 +1,12 @@
-% 测试最佳布设高度
-% myChan3 定位误差随距离的变化
+%   与 errorOfMyChan3 几乎相同，只是标签在负的位置
 
 % 基站数目
-BSN = 5;
+BSN = 4;
 
 % 各个基站的位置
-BS = [ 0, 10*sqrt(3), 15*sqrt(3), 5*sqrt(3), 20*sqrt(3);
-       0,         0,        15,          15,          0;
-%       10,         10,        10,         10,         10]; 
-       0,          0,         0,          0,          0]; 
+BS = [0,      0,     10,     10;
+      0,     10,     10,      0;
+      0,      0,      0,      0]; 
 BS = BS(:,1:BSN);
 
 % 画出基站的位置
@@ -18,21 +16,15 @@ grid on;
 hold on;
 
 % MS的一系列实际位置
-MSxOrig = 10 * sqrt(3);
-MSyOrig = 7.5;
-MSN = 10;
-MS = zeros(3, MSN);
-for i = 1: MSN
-    MS(1, :) = MSxOrig;
-    MS(2, :) = MSyOrig;
-end
-MS(3, :) = (-1: -0.5: -5.5);
+MS = [1,   1,   1,   1,   1,   1,   1,   1,   1,   1;
+      1,   1,   1,   1,   1,   1,   1,   1,   1,   1;
+      1,   1.5, 2,   2.5, 3,   3.5, 4,   4.5, 5,   5.5];
+MS(3, :) = -MS(3, :);
+MS = MS(:, 4:10);
 nPoints = length(MS);
-% MS = [5, 5, -10]';
-% nPoints = 1;
 
 % 噪声方差
-Noise = 0.2;
+Noise = 0.01;
 % 每个测试点的测试次数
 times = 10000;
 
@@ -54,7 +46,7 @@ for i = 1:nPoints
     end
 end
 
-% plot3(Xs(1,:), Xs(2,:), Xs(3,:), '.');
+plot3(Xs(1,:), Xs(2,:), Xs(3,:), '.');
 plot3(MS(1,:), MS(2,:), MS(3,:), '^', 'markersize', 4, 'Markerfacecolor','y', 'markeredgecolor','k');
 legend('Base Station', 'calculated location', 'real location');
 
@@ -62,7 +54,6 @@ legend('Base Station', 'calculated location', 'real location');
 RMSE = zeros(1, nPoints);
 for ii = 1: XsCol
     jj = fix((ii - 1) / times) + 1;
-%     % 若计算三维定位误差
 %     RMSE(1, jj) = RMSE(1, jj) + (Xs(1, ii) - MS(1, jj)) ^ 2 + (Xs(2, ii) - MS(2, jj)) ^ 2 + (Xs(3, ii) - MS(3, jj)) ^ 2;
     % 若计算平面误差
     RMSE(1, jj) = RMSE(1, jj) + (Xs(1, ii) - MS(1, jj)) ^ 2 + (Xs(2, ii) - MS(2, jj)) ^ 2 ;
@@ -79,4 +70,5 @@ title('定位误差随高度的变化');
 
 
     
+
 

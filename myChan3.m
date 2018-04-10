@@ -93,8 +93,8 @@ function X = myChan3(BSN, BS, R)
     % out = [out1;out2];
     out = abs(Za);
     
-%     % 当要把高度取负根的时候用
-%     out(3) = -out(3); 
+    % 当要把高度取负根的时候用
+    out(3) = -out(3); 
 
     % out = Za;
 
